@@ -1,4 +1,6 @@
 const { UserModel } = require("../../models");
+const { sendMail } = require("../../services");
+const { v4: uuidv4 } = require("uuid");
 
 const register = async (req, res) => {
   //get and verify data
@@ -18,10 +20,14 @@ const register = async (req, res) => {
 
   // if not - hash password and create user
 
-  const newUser = await UserModel.create({ ...req.body });
+  verificationToken = uuidv4();
+
+  const newUser = await UserModel.create({ ...req.body, verificationToken });
   newUser.setPassword(password);
   newUser.setAvatar(email);
   await newUser.save();
+
+  await sendMail(newUser.email, newUser.verificationToken);
 
   res.json({
     status: "created",

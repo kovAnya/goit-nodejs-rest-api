@@ -5,6 +5,7 @@ const currentUser = require("./currentUser");
 const subscription = require("./subscription");
 const avatars = require("./avatars");
 const verificationRequest = require("./verificationRequest");
+const resendEmail = require("./resendEmail");
 
 module.exports = {
   register,
@@ -14,4 +15,5 @@ module.exports = {
   subscription,
   avatars,
   verificationRequest,
+  resendEmail,
 };

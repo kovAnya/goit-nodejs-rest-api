@@ -8,6 +8,7 @@ const {
   currentUser,
   subscription,
   avatars,
+  verificationRequest,
 } = require("../../controllers");
 
 const router = express.Router();
@@ -24,5 +25,5 @@ router.patch(
   upload.single("avatar"),
   asyncHandler(avatars)
 );
-
+router.get("/verify/:verificationToken", asyncHandler(verificationRequest));
 module.exports = router;

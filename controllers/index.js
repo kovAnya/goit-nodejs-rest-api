@@ -14,6 +14,7 @@ const {
   currentUser,
   subscription,
   avatars,
+  verificationRequest,
 } = require("./users");
 
 module.exports = {
@@ -29,4 +30,5 @@ module.exports = {
   currentUser,
   subscription,
   avatars,
+  verificationRequest,
 };

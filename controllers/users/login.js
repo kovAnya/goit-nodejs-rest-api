@@ -11,23 +11,25 @@ const login = async (req, res) => {
     throw new Error("Please, provide all required fields");
   }
   // look for a contact and verify password
-  const user = await UserModel.findOne({ email });
+  const user = await UserModel.findOne({ email, verify: true });
 
   if (!user || !user.getValid(password)) {
     res.status(401);
-    throw new Error("Email or password is wrong");
+    throw new Error("Email or password is wrong or your email is not verified");
   }
   //generate token
   const payload = { id: user.id };
   const token = jwt.sign(payload, SECRET_WORD, { expiresIn: "3h" });
 
   //write token to user
-  user.token = token;
-  const updated = await user.save();
-  if (!updated) {
-    res.status(400);
-    throw new Error("Unable to set token");
-  }
+  // user.token = token;
+  // const updated = await user.save();
+  // if (!updated) {
+  //   res.status(400);
+  //   throw new Error("Unable to set token");
+  // }
+
+  await UserModel.updateOne({ email }, { token });
 
   //return token
   res.json({
